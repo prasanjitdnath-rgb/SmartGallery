@@ -53,7 +53,7 @@ class GalleryViewModel(app: Application) : AndroidViewModel(app) {
 
             // 2) background: find Android Motion Photos, update the grid as batches finish
             val gate = Semaphore(4)
-            base.filter { !it.isVideo && !it.isLive && it.mime == "image/jpeg" && it.key !in motionCache }
+            base.filter { !it.isVideo && !it.isLive && it.mime == "image/jpeg" && !motionCache.containsKey(it.key) }
                 .chunked(40)
                 .forEach { chunk ->
                     val found = chunk.map { i ->
